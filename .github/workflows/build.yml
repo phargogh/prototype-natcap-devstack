@@ -1,0 +1,36 @@
+name: Build containers
+
+on: [push]
+
+defaults:
+    run:
+        shell: bash -l {0}
+
+jobs:
+    build-docker:
+        name: Build containers
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Build and push
+              uses: docker/build-push-action@v3
+              with:
+                  push: false
+                  tags: ${{ github.repository }}:latest
+
+    build-singularity:
+        needs: build-docker
+        name: Build singularity
+        runs-on: ubuntu-latest
+        container:
+            image: quay.io/singularity/singularity:v3.10.3
+            options: --privileged
+
+        steps:
+            - run: singularity pull natcap-devstack.sif docker://${{ github.repository }}:latest
+
+
