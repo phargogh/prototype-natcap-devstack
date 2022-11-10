@@ -19,6 +19,7 @@ jobs:
             - name: Build and push
               uses: docker/build-push-action@v3
               with:
+                  context: ./docker/
                   push: false
                   tags: ${{ github.repository }}:latest
 
