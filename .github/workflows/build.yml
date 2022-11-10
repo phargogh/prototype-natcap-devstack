@@ -23,15 +23,10 @@ jobs:
                   push: false
                   tags: ${{ github.repository }}:latest
 
-    build-singularity:
-        needs: build-docker
-        name: Build singularity
-        runs-on: ubuntu-latest
-        container:
-            image: quay.io/singularity/singularity:v3.10.3
-            options: --privileged
+            - run: |
+                docker run --privileged quay.io/singularity/singularity:v3.10.3 pull natcap-devstack.sif docker://${{ github.repository }}:latest
 
-        steps:
-            - run: singularity pull natcap-devstack.sif docker://${{ github.repository }}:latest
-
+            - uses: actions/upload-artifact@v2
+              with:
+                  path: natcap-devstack.sif
 
