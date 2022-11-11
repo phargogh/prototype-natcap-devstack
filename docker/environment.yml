@@ -1,0 +1,14 @@
+name: base
+channels:
+    - conda-forge
+dependencies:
+    - python=3.10
+    - gdal
+    - pygeoprocessing
+    - natcap.invest
+    - pandas
+    - taskgraph
+    - matplotlib
+    - cxx-compiler
+    - jupyter
+    - requests
