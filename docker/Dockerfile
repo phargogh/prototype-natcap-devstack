@@ -4,7 +4,8 @@ USER root
 RUN conda install -y -c conda-forge mamba
 RUN mamba install -y \
         -c conda-forge \
-        python=3.10 \
+        python=3.9 \
+        "gdal<3.5" \
         pygeoprocessing \
         pandas \
         taskgraph \
