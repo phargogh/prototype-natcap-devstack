@@ -14,9 +14,11 @@ RUN mamba install -y \
         jupyter
 
 # Make RUN commands use the new environment:
-ADD docker-entrypoint.sh /opt/docker-entrypoint.sh
-RUN conda init bash && echo "conda activate myenv" >> ~/.bashrc
+RUN conda init bash
+RUN echo "conda activate myenv" >> ~/.bashrc
 ENV PATH /opt/conda/envs/$conda_env/bin:$PATH
+ADD docker-entrypoint.sh /opt/docker-entrypoint.sh
+RUN chmod a+x /opt/docker-entrypoint.sh
 
 # Need to override the default PROJ_LIB; needs the trailing backslash
 ENV PROJ_LIB /usr/local/share/proj/
