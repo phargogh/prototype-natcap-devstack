@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
-
+#!/bin/bash
 conda activate base
 python "$@"
