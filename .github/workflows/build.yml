@@ -30,7 +30,12 @@ jobs:
               run: docker push  ghcr.io/${{ github.actor }}/natcap-devstack:latest
 
             - run: |
-                docker run --privileged quay.io/singularity/singularity:v3.10.3 pull natcap-devstack.sif docker://ghcr.io/${{ github.actor }}/natcap-devstack:latest
+                docker run \
+                    --rm \
+                    --volume $(pwd):/tmp/devstack \
+                    --workdir /tmp/devstack \
+                    --privileged \
+                    quay.io/singularity/singularity:v3.10.3 pull natcap-devstack.sif docker://ghcr.io/${{ github.actor }}/natcap-devstack:latest
 
             - uses: actions/upload-artifact@v2
               with:
