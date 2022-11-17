@@ -17,7 +17,7 @@ docker run --rm -ti -v $(pwd):/natcap -w /natcap ghcr.io/natcap/devstack:latest 
 ## Singularity
 
 ```sh
-singilarity run docker://ghcr.io/natcap/devstack:latest <your python script>
+singularity run docker://ghcr.io/natcap/devstack:latest <your python script>
 ```
 
 ## Reproducible Runs
@@ -36,5 +36,5 @@ docker run --rm -ti -v $(pwd):/natcap -w /natcap ghcr.io/natcap/devstack@sha256:
 Or for `singularity` on an HPC cluster:
 
 ```sh
-singilarity run docker://ghcr.io/natcap/devstack@sha256:acdae8dc64e1c7f31e6d2a1f92aa16d1f49c50d58adcd841ee2d325a96de89d9 <your python script>
+singularity run docker://ghcr.io/natcap/devstack@sha256:acdae8dc64e1c7f31e6d2a1f92aa16d1f49c50d58adcd841ee2d325a96de89d9 <your python script>
 ```
