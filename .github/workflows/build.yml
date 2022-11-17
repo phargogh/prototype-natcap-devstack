@@ -1,6 +1,12 @@
 name: Build containers
 
-on: [push]
+on:
+    push:
+        branches:
+            - 'main'
+        paths:
+            - 'docker/*'
+            - '.github/workflows/*.yml'
 
 concurrency:
   # make sure only one run of this workflow for a given PR or a given branch
