@@ -42,18 +42,18 @@ jobs:
             - name: Build docker
               run: |
                   cd docker && docker build \
-                        -t ghcr.io/${{ github.actor }}/devstack:latest \
-                        -t ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }} \
+                        -t ghcr.io/${{ github.repository_owner }}/devstack:latest \
+                        -t ghcr.io/${{ github.repository_owner }}/devstack:${{ env.DATESTAMP_VERSION }} \
                         .
 
 
             - name: Test that gdal imports
-              run: docker run --rm ghcr.io/${{ github.actor }}/devstack:latest python -c "from osgeo import gdal"
+              run: docker run --rm ghcr.io/${{ github.repository_owner }}/devstack:latest python -c "from osgeo import gdal"
 
             - name: Push docker
               run: |
-                  docker push ghcr.io/${{ github.actor }}/devstack:latest
-                  docker push ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }}
+                  docker push ghcr.io/${{ github.repository_owner }}/devstack:latest
+                  docker push ghcr.io/${{ github.repository_owner }}/devstack:${{ env.DATESTAMP_VERSION }}
 
             - name: Build singularity
               run: |
@@ -62,7 +62,7 @@ jobs:
                     --volume $(pwd):/tmp/devstack \
                     --workdir /tmp/devstack \
                     --privileged \
-                    quay.io/singularity/singularity:v3.10.3 pull docker://ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }}
+                    quay.io/singularity/singularity:v3.10.3 pull docker://ghcr.io/${{ github.repository_owner }}/devstack:${{ env.DATESTAMP_VERSION }}
 
             - uses: actions/upload-artifact@v3
               with:
