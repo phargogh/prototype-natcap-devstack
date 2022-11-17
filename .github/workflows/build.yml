@@ -39,7 +39,8 @@ jobs:
                   docker push ghcr.io/${{ github.actor }}/devstack:latest
                   docker push ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }}
 
-            - run: |
+            - name: Build singularity
+              run: |
                 docker run \
                     --rm \
                     --volume $(pwd):/tmp/devstack \
@@ -49,5 +50,6 @@ jobs:
 
             - uses: actions/upload-artifact@v3
               with:
-                  path: *.sif
+                  path: |
+                      *.sif
 
