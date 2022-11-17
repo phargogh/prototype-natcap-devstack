@@ -20,14 +20,24 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Determine version
+              run: echo "DATESTAMP_VERSION=$(date +%F)" >> $GITHUB_ENV
+
             - name: Build docker
-              run: cd docker && docker build -t ghcr.io/${{ github.actor }}/natcap-devstack:latest .
+              run: |
+                  cd docker && docker build \
+                        -t ghcr.io/${{ github.actor }}/devstack:latest \
+                        -t ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }} \
+                        .
+
 
             - name: Test that gdal imports
-              run: docker run --rm ghcr.io/${{ github.actor }}/natcap-devstack:latest python -c "from osgeo import gdal"
+              run: docker run --rm ghcr.io/${{ github.actor }}/devstack:latest python -c "from osgeo import gdal"
 
             - name: Push docker
-              run: docker push  ghcr.io/${{ github.actor }}/natcap-devstack:latest
+              run: |
+                  docker push ghcr.io/${{ github.actor }}/devstack:latest
+                  docker push ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }}
 
             - run: |
                 docker run \
@@ -35,9 +45,9 @@ jobs:
                     --volume $(pwd):/tmp/devstack \
                     --workdir /tmp/devstack \
                     --privileged \
-                    quay.io/singularity/singularity:v3.10.3 pull natcap-devstack.sif docker://ghcr.io/${{ github.actor }}/natcap-devstack:latest
+                    quay.io/singularity/singularity:v3.10.3 pull docker://ghcr.io/${{ github.actor }}/devstack:${{ env.DATESTAMP_VERSION }}
 
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v3
               with:
-                  path: natcap-devstack.sif
+                  path: *.sif
 
